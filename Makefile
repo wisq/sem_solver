@@ -3,8 +3,7 @@ DATASET=GoogleNews-vectors-negative300
 main: priv/data/$(DATASET).txt
 
 priv/data/%.txt: priv/data/%.bin.gz src/convertvec
-	mkdir -vp priv/data
-	cat "$<" | gunzip | src/convertvec > "$@"
+	cat "$<" | gunzip | src/convertvec | egrep '^[a-z]+ ' > "$@"
 
 priv/data/$(DATASET).bin.gz:
 	mkdir -p priv/data
