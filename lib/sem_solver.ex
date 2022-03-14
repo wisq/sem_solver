@@ -2,13 +2,13 @@ defmodule SemSolver do
   require Logger
   alias SemSolver.{WordStream, KnownWord, Word}
 
-  @default_data_set "GoogleNews-vectors-negative300"
-  @default_data_file Path.join([:code.priv_dir(:sem_solver), "data", "#{@default_data_set}.txt"])
+  @data_set "GoogleNews-vectors-negative300"
+  @data_file Path.join([:code.priv_dir(:sem_solver), "data", "#{@data_set}.bin.gz"])
 
-  def default_dataset, do: WordStream.file!(@default_data_file)
+  def default_dataset, do: WordStream.file!(@data_file)
 
   def solve(word_scores) do
-    {usecs, word} = :timer.tc(&solve_with/2, [@default_data_file, word_scores])
+    {usecs, word} = :timer.tc(&solve_with/2, [@data_file, word_scores])
     Logger.debug("Total solve time was #{div(usecs, 1000)}ms")
     word
   end

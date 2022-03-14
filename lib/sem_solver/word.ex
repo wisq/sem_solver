@@ -3,17 +3,16 @@ defmodule SemSolver.Word do
   defstruct(@enforce_keys)
   alias __MODULE__
 
-  def parse(line) do
-    [word, coords] = line |> String.split(" ", parts: 2)
+  def new(word, coords) do
     %Word{word: word, coords: coords}
   end
 
   def coordinates(%Word{coords: coords}) do
-    coords
-    |> String.trim_trailing()
-    |> String.split(" ")
-    |> Enum.map(&String.to_float/1)
+    parse_coords(coords)
   end
+
+  defp parse_coords(<<>>), do: []
+  defp parse_coords(<<c::little-float-32, rest::binary>>), do: [c | parse_coords(rest)]
 end
 
 defimpl Inspect, for: SemSolver.Word do

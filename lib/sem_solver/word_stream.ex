@@ -1,9 +1,47 @@
 defmodule SemSolver.WordStream do
   alias SemSolver.Word
 
+  @max_word_len 2000
+  @float_size 4
+
   def file!(path) do
-    File.stream!(path)
-    |> Stream.map(&Word.parse/1)
+    Stream.resource(
+      fn ->
+        file = File.open!(path, [:binary, :compressed])
+
+        [_count, size] =
+          IO.binread(file, :line)
+          |> :string.chomp()
+          |> String.split(" ", parts: 2)
+          |> Enum.map(&String.to_integer/1)
+
+        read_len = @float_size * size
+        {file, read_len}
+      end,
+      fn {file, read_len} = state ->
+        case read_record(file, read_len) do
+          {:ok, text, coords} ->
+            {[Word.new(text, coords)], state}
+
+          {:error, :eof} ->
+            {:halt, state}
+        end
+      end,
+      fn {file, _} -> File.close(file) end
+    )
+  end
+
+  defp read_record(file, read_len, buffer \\ "") do
+    data = IO.binread(file, read_len)
+
+    case String.split(data, " ", parts: 2) do
+      [word, leftover] -> {:ok, buffer <> word, read_coords(file, read_len, leftover)}
+      [partial] -> read_record(file, read_len, partial)
+    end
+  end
+
+  defp read_coords(file, read_len, leftover) do
+    leftover <> IO.binread(file, read_len - byte_size(leftover))
   end
 
   def find_words(stream, search_words) do
