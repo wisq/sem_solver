@@ -72,7 +72,8 @@ defmodule SemSolverTest do
           "Failed to find #{inspect(@target)} using guesses #{inspect(guesses)}"
         )
       end,
-      timeout: 30_000
+      timeout: 30_000,
+      ordered: false
     )
     |> Stream.run()
   end
