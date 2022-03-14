@@ -5,6 +5,8 @@ defmodule SemSolver do
   @default_data_set "GoogleNews-vectors-negative300"
   @default_data_file Path.join([:code.priv_dir(:sem_solver), "data", "#{@default_data_set}.txt"])
 
+  def default_dataset, do: WordStream.file!(@default_data_file)
+
   def solve(word_scores) do
     {usecs, word} = :timer.tc(&solve_with/2, [@default_data_file, word_scores])
     Logger.debug("Total solve time was #{div(usecs, 1000)}ms")
@@ -18,7 +20,7 @@ defmodule SemSolver do
     Logger.debug("Found #{Enum.count(checks)} reference words in #{div(usecs, 1000)}ms")
 
     {usecs, word} = :timer.tc(&find_matching_word/2, [dataset, checks])
-    Logger.debug("Matched #{inspect(word)} in #{div(usecs, 1000)}ms")
+    Logger.debug("Matched #{inspect(word.word)} in #{div(usecs, 1000)}ms")
 
     word
   end
