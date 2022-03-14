@@ -32,7 +32,10 @@ defmodule SemSolver do
 
   defp find_matching_word(dataset, checks) do
     dataset
-    |> Enum.find(fn word -> checks |> Enum.all?(& &1.(word)) end)
+    |> WordStream.find_word(fn word ->
+      checks
+      |> Enum.all?(& &1.(word))
+    end)
   end
 
   defp generate_check_fn(%Word{} = word, word_scores) do
