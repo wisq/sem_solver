@@ -14,20 +14,20 @@ On a more practical level, it should be fairly easy to turn this into a "hint en
 
 ## Setup
 
-Just run `mix compile`.  The appropriate dataset (~1.7 GB) will be downloaded and compiled automatically.  (This will take several minutes.)
+Just run `mix compile`.  The appropriate dataset (~1.7 GB) will be downloaded automatically.
 
 The test suite (`mix test`) can also be used to run some basic tests against known Semantle puzzles.
 
 ## Usage
 
-Currently there's no command-line interface.  Instead, you can solve puzzles by running `iex -S mix` and running `SemSolver.solve(guesses)`, where `guesses` is a mapping of guess words to scores (to two decimal digits).
+Currently there's no command-line interface.  Instead, you can solve puzzles by running `iex -S mix` and running `SemSolver.solve(guesses)`, where `guesses` is a mapping of guess words to scores.  (The scores are the two-decimal-digit numbers from the "similarity" column, and NOT the "top 1000" word ranks.)
 
 For example, here's my (totally human) guess history for Semantle #43: ![Semantle 43](https://i.wisq.net/semantle_43.png)
 
 And here's how fast I could've solved that with `SemSolver`:
 
 ```
-iex(1)> SemSolver.solve(%{"orbit" => 4.64})
+iex(1)> SemSolver.solve(orbit: 4.64)
 [debug] Found 1 reference words in 128ms
 [debug] Matched "action" in 32ms
 [debug] Total solve time was 166ms
@@ -37,7 +37,7 @@ iex(1)> SemSolver.solve(%{"orbit" => 4.64})
 Well that's not right.  Sometimes one guess is enough, but since the Semantle page only gives you two digits of precision to your answers, usually it takes a second word to triangulate the target word.  Let's try adding my second guess:
 
 ```
-iex(2)> SemSolver.solve(%{"orbit" => 4.64, "massive" => 1.71})
+iex(2)> SemSolver.solve(orbit: 4.64, massive: 1.71)
 [debug] Found 2 reference words in 122ms
 [debug] Matched "greet" in 589ms
 [debug] Total solve time was 711ms

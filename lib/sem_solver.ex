@@ -13,7 +13,9 @@ defmodule SemSolver do
     word
   end
 
-  def solve_with(data_file, %{} = word_scores) do
+  def solve_with(data_file, word_scores) do
+    word_scores = parse_guesses(word_scores)
+
     dataset = WordStream.file!(data_file)
 
     {usecs, checks} = :timer.tc(&create_checks/2, [dataset, word_scores])
@@ -23,6 +25,28 @@ defmodule SemSolver do
     Logger.debug("Matched #{inspect(word.word)} in #{div(usecs, 1000)}ms")
 
     word
+  end
+
+  defp parse_guesses(guesses) do
+    guesses
+    |> Enum.reduce(Map.new(), fn {word, score}, map ->
+      if score != Float.round(score, 2) do
+        raise ArgumentError, "Invalid score #{inspect(score)}, must have 2 decimal places."
+      end
+
+      word =
+        case word do
+          b when is_binary(b) -> b
+          a when is_atom(a) -> Atom.to_string(a)
+          x -> raise "Invalid guess word: #{inspect(x)}"
+        end
+
+      if Map.has_key?(map, word) do
+        raise "Duplicate guess: #{inspect(word)} => #{inspect(score)}"
+      end
+
+      Map.put(map, word, score)
+    end)
   end
 
   defp create_checks(dataset, word_scores) do
