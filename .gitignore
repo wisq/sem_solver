@@ -24,3 +24,6 @@ sem_solver-*.tar
 
 # Temporary files, for example, from tests.
 /tmp/
+
+# Data files:
+/priv/data/
