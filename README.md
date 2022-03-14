@@ -28,9 +28,9 @@ And here's how fast I could've solved that with `SemSolver`:
 
 ```
 iex(1)> SemSolver.solve(%{"orbit" => 4.64})
-[debug] Found 1 reference words in 16ms
-[debug] Matched "action" in 45ms
-[debug] Total solve time was 67ms
+[debug] Found 1 reference words in 128ms
+[debug] Matched "action" in 32ms
+[debug] Total solve time was 166ms
 #Word<"action">
 ```
 
@@ -38,9 +38,9 @@ Well that's not right.  Sometimes one guess is enough, but since the Semantle pa
 
 ```
 iex(2)> SemSolver.solve(%{"orbit" => 4.64, "massive" => 1.71})
-[debug] Found 2 reference words in 14ms
-[debug] Matched "greet" in 747ms
-[debug] Total solve time was 762ms
+[debug] Found 2 reference words in 122ms
+[debug] Matched "greet" in 589ms
+[debug] Total solve time was 711ms
 #Word<"greet">
 ```
 
