@@ -38,15 +38,15 @@ defmodule SemSolver.SemantleCase do
     |> Enum.shuffle()
     |> Enum.chunk_every(n_g)
     |> Task.async_stream(
-      fn guesses ->
-        assert(
-          %Word{word: ^target} = SemSolver.solve(guesses),
-          "Failed to find #{inspect(target)} using guesses #{inspect(guesses)}"
-        )
-      end,
+      fn guesses -> {guesses, SemSolver.solve(guesses)} end,
       timeout: 30_000,
       ordered: false
     )
-    |> Stream.run()
+    |> Enum.each(fn {:ok, {guesses, found}} ->
+      assert %Word{word: word} = found
+
+      assert word == target,
+             "Expected #{inspect(target)}, got #{inspect(word)} using guesses #{inspect(guesses)}"
+    end)
   end
 end
