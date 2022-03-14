@@ -2,21 +2,8 @@ defmodule SemSolver.WordStream do
   alias SemSolver.Word
 
   def file!(path) do
-    Stream.resource(
-      fn ->
-        file = File.open!(path)
-        # throw away header (for now)
-        IO.read(file, :line)
-        file
-      end,
-      fn file ->
-        case IO.read(file, :line) do
-          data when is_binary(data) -> {[Word.parse(data)], file}
-          _ -> {:halt, file}
-        end
-      end,
-      fn file -> File.close(file) end
-    )
+    File.stream!(path)
+    |> Stream.map(&Word.parse/1)
   end
 
   def find_words(stream, search_words) do
