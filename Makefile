@@ -7,7 +7,7 @@ priv/data/%.txt: priv/data/%.bin.gz src/convertvec
 	cat "$<" | gunzip | src/convertvec > "$@"
 
 priv/data/$(DATASET).bin.gz:
-	mkdir -p data
+	mkdir -p priv/data
 	curl -o "$@" https://s3.amazonaws.com/dl4j-distribution/$(DATASET).bin.gz
 
 src/convertvec:
