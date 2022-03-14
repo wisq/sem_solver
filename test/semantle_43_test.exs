@@ -1,7 +1,8 @@
 defmodule Semantle43Test do
   use SemSolver.SemantleCase, async: true
 
-  guesses = [
+  @target "greet"
+  @guesses [
     welcome: 40.83,
     invite: 38.02,
     taunt: 30.29,
@@ -35,11 +36,6 @@ defmodule Semantle43Test do
     value: -5.11,
     texture: -10.27
   ]
-
-  @target "greet"
-  @guesses Map.new(guesses, fn {w, s} -> {Atom.to_string(w), s} end)
-
-  alias SemSolver.{WordStream, KnownWord, Word}
 
   test "guess list is accurate" do
     assert_guesses_accurate(@target, @guesses)

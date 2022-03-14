@@ -9,7 +9,8 @@ defmodule SemSolver.SemantleCase do
 
   alias SemSolver.{WordStream, KnownWord, Word}
 
-  def assert_guesses_accurate(target, %{} = guesses) when is_binary(target) do
+  def assert_guesses_accurate(target, guesses) when is_binary(target) do
+    guesses = guesses |> Map.new(fn {k, v} -> {Atom.to_string(k), v} end)
     wanted = [target | Map.keys(guesses)]
 
     all_found =
