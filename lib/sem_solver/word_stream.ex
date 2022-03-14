@@ -1,7 +1,6 @@
 defmodule SemSolver.WordStream do
   alias SemSolver.Word
 
-  @max_word_len 2000
   @float_size 4
 
   def file!(path) do
@@ -31,12 +30,14 @@ defmodule SemSolver.WordStream do
     )
   end
 
-  defp read_record(file, read_len, buffer \\ "") do
+  defp read_record(file, read_len) do
     data = IO.binread(file, read_len)
 
-    case String.split(data, " ", parts: 2) do
-      [word, leftover] -> {:ok, buffer <> word, read_coords(file, read_len, leftover)}
-      [partial] -> read_record(file, read_len, partial)
+    if data == :eof do
+      {:error, :eof}
+    else
+      [word, leftover] = String.split(data, " ", parts: 2)
+      {:ok, word, read_coords(file, read_len, leftover)}
     end
   end
 
