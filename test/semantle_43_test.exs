@@ -1,5 +1,5 @@
 defmodule Semantle43Test do
-  use SemSolver.SemantleCase
+  use SemSolver.SemantleCase, async: true
 
   guesses = [
     welcome: 40.83,
