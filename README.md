@@ -16,7 +16,7 @@ On a more practical level, it should be fairly easy to turn this into a "hint en
 
 ## Setup
 
-Just run `mix compile`.  The appropriate dataset (~1.7 GB) will be downloaded automatically.
+Just run `mix deps.get` and `mix compile`.  The appropriate dataset (~1.7 GB) will be downloaded automatically.
 
 The test suite (`mix test`) can also be used to run some basic tests against known Semantle puzzles.
 
