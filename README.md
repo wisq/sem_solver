@@ -8,7 +8,9 @@ I've not extensively tested SemSolver with other Semantle results, but so far it
 
 No, I don't actually use this to solve Semantle puzzles.  In fact, given that a daily Semantle is pretty useless if you already know the answer, I only ever run this on a Semantle that I've already solved.
 
-Semantle was partially inspired by Wordle.  Many programmers (myself included) saw Wordle and immediately wondered, "How efficient a Wordle solver can I write?"  This is me doing the same thing for Semantle, and also learning a bit more about Elixir (especially [Streams](https://hexdocs.pm/elixir/Stream.html)) in the process.  If you're curious about my design process, check out [DESIGN.md](/DESIGN.md).
+Semantle was partially inspired by Wordle.  Many programmers (myself included) saw Wordle and immediately wondered, "How efficient a Wordle solver can I write?"  This is me doing the same thing for Semantle, and also learning a bit more about my favourite language (and especially [Streams](https://hexdocs.pm/elixir/Stream.html)) in the process.
+
+Of course, Semantle gives much more precise feedback than Wordle does, and both the source code and the dataset it uses are publicly available.  As such, the challenge of designing an efficient Semantle solver is much less about information theory ("how few guesses do I need?"), and much more about data handling ("can I search a 3.6GB dataset in a reasonable amount of time and memory usage?").  If you're curious about the process that led to this solution, check out [my design notes](/DESIGN.md).
 
 On a more practical level, it should be fairly easy to turn this into a "hint engine" — if you're stuck on a particular Semantle, it could find a word around a given score to help you out a bit.  (Maybe I'll do that the next time I get stuck.)
 
